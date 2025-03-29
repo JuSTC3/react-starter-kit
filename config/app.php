@@ -123,4 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'features' => [
+        'hide_password_login' => env('HIDE_PASSWORD_LOGIN', false),
+        'allowed_domains' => env('GOOGLE_ALLOWED_DOMAINS', ''),
+    ],
+
 ];
