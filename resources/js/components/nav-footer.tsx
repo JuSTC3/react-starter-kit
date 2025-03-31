@@ -4,6 +4,7 @@ import { type NavItem } from '@/types';
 import { type ComponentPropsWithoutRef } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ChevronUp } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
 
 export function NavFooter({
     items,
@@ -12,6 +13,8 @@ export function NavFooter({
 }: ComponentPropsWithoutRef<typeof SidebarGroup> & {
     items: NavItem[];
 }) {
+    const page = usePage();
+
     return (
         <SidebarGroup {...props} className={`group-data-[collapsible=icon]:p-0 ${className || ''}`}>
             <SidebarGroupContent>
@@ -20,7 +23,7 @@ export function NavFooter({
                         <SidebarMenuItem key={item.title}>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <SidebarMenuButton>
+                                    <SidebarMenuButton isActive={page.url.startsWith(item.href)} tooltip={{ children: item.title }}>
                                         {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />} {item.title}
                                         <ChevronUp className="ml-auto" />
                                     </SidebarMenuButton>
@@ -28,10 +31,10 @@ export function NavFooter({
                                 <DropdownMenuContent side="top" className="w-[var(--radix-popper-anchor-width)]" >
                                     {item.sub?.map((subItem) => (
                                         <DropdownMenuItem key={subItem.title}>
-                                            <a href={subItem.href} className="flex items-center">
-                                                {subItem.icon && <Icon iconNode={subItem.icon} className="h-4 w-4 mr-2" />}
-                                                {subItem.title}
-                                            </a>
+                                            <Link className="flex items-center" href={subItem.href} prefetch>
+                                                {subItem.icon && <subItem.icon className="h-4 w-4 mr-2" />}
+                                                <span>{subItem.title}</span>
+                                            </Link>
                                         </DropdownMenuItem>
                                     ))}
                                 </DropdownMenuContent>

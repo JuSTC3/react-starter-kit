@@ -18,7 +18,7 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [
     {
         title: 'Manage Dashboard',
-        href: '',
+        href: '/manage',
         icon: ScanFace,
         sub: [
             {
@@ -28,7 +28,7 @@ const footerNavItems: NavItem[] = [
             },
             {
                 title: 'Roles',
-                href: '/roles',
+                href: '/manage/roles',
                 icon: Tag,
             },
         ]

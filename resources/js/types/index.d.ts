@@ -41,3 +41,10 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface UsersPageProps {
+    users: {
+        data: User[];
+    };
+    [key: string]: unknown; // Allow additional Inertia props
+}
