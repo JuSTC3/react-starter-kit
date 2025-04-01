@@ -1,14 +1,15 @@
 import { DataTable } from '@/components/ui/datatable/data-table';
 import { type BreadcrumbItem, User } from '@/types';
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { type UsersPageProps } from '@/types';
 import { DataTableColumnHeader } from '@/components/ui/datatable/data-table-column-header';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { TableAction } from '@/components/ui/datatable/data-table-action';
-import { Eye, Pencil, Trash } from "lucide-react";
+import { Eye, Pencil, Trash, UserPlus } from "lucide-react";
 import Page from '@/components/ui/page';
+import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Manage Dashboard', href: '/manage/users' },
@@ -102,7 +103,12 @@ export default function Users({ users }: UsersPageProps) {
 
     return (
         <Page title={TITLE} subtitle={SUBTITLE} breadcrumbs={breadcrumbs}>
-            <DataTable data={users.data} columns={userColumns} filterColumns={["name", "email"]}  filterPlaceholder="Search..." />
+            <div className="mb-2 flex justify-end">
+                <Link href="/manage/users/create" prefetch>
+                    <Button className="w-full cursor-pointer"><UserPlus />Create User</Button>
+                </Link>
+            </div>
+            <DataTable data={users.data} columns={userColumns} filterColumns={["name", "email"]} filterPlaceholder="Search..." />
         </Page>
     );
 }
