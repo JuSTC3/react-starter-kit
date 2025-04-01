@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { ScanFace, Users, LayoutGrid, Tag } from 'lucide-react';
+import { ScanFace, Users, LayoutGrid, Tag, Tags, UserPlus, List } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -25,13 +25,37 @@ const footerNavItems: NavItem[] = [
                 title: 'Users',
                 href: '/manage/users',
                 icon: Users,
+                sub: [
+                    {
+                        title: 'List Users',
+                        href: '/manage/users',
+                        icon: List,
+                    },
+                    {
+                        title: 'Create User',
+                        href: '/manage/users/create',
+                        icon: UserPlus,
+                    }
+                ],
             },
             {
                 title: 'Roles',
                 href: '/manage/roles',
-                icon: Tag,
+                icon: Tags,
+                sub: [
+                    {
+                        title: 'List Roles',
+                        href: '/manage/users',
+                        icon: List,
+                    },
+                    {
+                        title: 'Create Role',
+                        href: '/manage/users/create',
+                        icon: Tag,
+                    }
+                ],
             },
-        ]
+        ],
     },
 ];
 
