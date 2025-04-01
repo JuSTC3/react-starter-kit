@@ -1,13 +1,13 @@
 import { Separator } from "@/components/ui/separator"
 
 interface PageCardProps {
-    title?: string | '';
-    subtitle?: string | '';
-    border?: boolean | false;
+    title?: string;
+    subtitle?: string;
+    border?: boolean;
     children: React.ReactNode;
 }
 
-const PageCard: React.FC<PageCardProps> = ({ title, subtitle, border, children }) => {
+const PageCard: React.FC<PageCardProps> = ({ title, subtitle, border = false, children }) => {
     const padding = border ? 'p-6' : 'p-8';
 
     return (
