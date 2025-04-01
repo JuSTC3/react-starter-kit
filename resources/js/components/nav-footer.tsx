@@ -30,8 +30,8 @@ export function NavFooter({
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent side="top" className="w-[var(--radix-popper-anchor-width)]" >
                                     {item.sub?.map((subItem) => (
-                                        <DropdownMenuItem key={subItem.title}>
-                                            <Link className="flex items-center" href={subItem.href} prefetch>
+                                        <DropdownMenuItem key={subItem.title} asChild>
+                                            <Link className="flex items-center w-full px-2 py-1 cursor-pointer" href={subItem.href} prefetch>
                                                 {subItem.icon && <subItem.icon className="h-4 w-4 mr-2" />}
                                                 <span>{subItem.title}</span>
                                             </Link>
