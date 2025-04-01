@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
     ColumnDef,
-    ColumnFiltersState,
     SortingState,
     VisibilityState,
     flexRender,
@@ -11,7 +10,6 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DataTableViewOptions } from "./data-table-view-options";
@@ -20,13 +18,13 @@ import { DataTablePagination } from "./data-table-pagination";
 interface DataTableProps<T> {
     data: T[];
     columns: ColumnDef<T>[];
-    filterColumn?: keyof T;
+    filterColumns?: (keyof T)[];
     filterPlaceholder?: string;
 }
 
-export function DataTable<T>({ data, columns, filterColumn, filterPlaceholder = "Filter..." }: DataTableProps<T>) {
+export function DataTable<T>({ data, columns, filterColumns = [], filterPlaceholder = "Search..." }: DataTableProps<T>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [globalFilter, setGlobalFilter] = React.useState("");
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
@@ -34,7 +32,6 @@ export function DataTable<T>({ data, columns, filterColumn, filterPlaceholder = 
         data,
         columns,
         onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
@@ -43,22 +40,26 @@ export function DataTable<T>({ data, columns, filterColumn, filterPlaceholder = 
         onRowSelectionChange: setRowSelection,
         state: {
             sorting,
-            columnFilters,
+            globalFilter,
             columnVisibility,
             rowSelection,
+        },
+        globalFilterFn: (row, columnId, filterValue) => {
+            if (!filterValue) return true; // Show all rows if filter is empty
+            return filterColumns.some((col) => 
+                row.original[col]?.toString().toLowerCase().includes(filterValue.toLowerCase())
+            );
         },
     });
 
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                {filterColumn && (
+                {filterColumns.length > 0 && (
                     <Input
                         placeholder={filterPlaceholder}
-                        value={(table.getColumn(filterColumn as string)?.getFilterValue() as string) ?? ""}
-                        onChange={(event) =>
-                            table.getColumn(filterColumn as string)?.setFilterValue(event.target.value)
-                        }
+                        value={globalFilter}
+                        onChange={(event) => setGlobalFilter(event.target.value)}
                         className="max-w-sm"
                     />
                 )}
